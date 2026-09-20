@@ -181,10 +181,18 @@
   position: fixed;
   inset: 0;
   z-index: -1;
-  opacity: .18;
+  opacity: .12;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
+}
+
+@utility content-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, oklch(0.975 0.01 75 / 0.38) 0%, oklch(0.96 0.015 260 / 0.28) 100%);
 }
 
 @utility site-shell { width: min(1380px, calc(100% - 32px)); margin: 0 auto; padding-bottom: 64px; }
