@@ -75,7 +75,7 @@ function Index() {
         </header>
 
         <section className="intro">
-          <div className="eyebrow"><span className="shape-triangle" /> DEUTSCHLAND / MATERIALBÖRSE / 09—26</div>
+          <div className="eyebrow"><span className="shape-triangle" /> GEBEN / NEHMEN / TAUSCHEN</div>
           <h1>FINDE DEIN<br /><span>NEUES</span><br />HOBBY.</h1>
           <p>Was bei anderen herumliegt, kann bei dir zum Lieblingsprojekt werden.</p>
         </section>
