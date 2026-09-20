@@ -120,13 +120,14 @@ function Index() {
                   <div className="image-wrap">
                     <img src={item.image} alt={item.title} width={816} height={816} loading="lazy" />
                     <span className="listing-number">{String(index + 1).padStart(2, "0")}</span>
+                    <span className={`type-badge type-badge--${item.type.toLowerCase()}`}>{item.type.toUpperCase()}</span>
                   </div>
                   <div className="card-copy">
                     <div className="meta"><span>{item.category}</span><span>{item.place}</span></div>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     <ActionButton onClick={() => setRequested((current) => isRequested ? current.filter((title) => title !== item.title) : [...current, item.title])} aria-pressed={isRequested}>
-                      {isRequested ? "ANGEFRAGT" : "ANFRAGEN"}<ArrowUpRight aria-hidden="true" />
+                      {isRequested ? "ANGEFRAGT" : item.type === "Gesuch" ? "ANBIETEN" : "ANFRAGEN"}<ArrowUpRight aria-hidden="true" />
                     </ActionButton>
                   </div>
                 </article>
