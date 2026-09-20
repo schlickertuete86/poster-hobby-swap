@@ -87,7 +87,24 @@ function Index() {
               <span className="sr-only">Material suchen</span>
               <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="WAS SUCHST DU?" />
             </label>
-            <div className="filter-label"><SlidersHorizontal aria-hidden="true" /><span>ALLE<br />KATEGORIEN</span></div>
+            <div className="filter-label"><SlidersHorizontal aria-hidden="true" /><span>FILTER</span></div>
+          </div>
+
+          <div className="filter-row" aria-label="Art des Inserats">
+            {typeFilters.map((type) => (
+              <button key={type} className="type-chip" aria-pressed={typeFilter === type} onClick={() => setTypeFilter(type)}>
+                {type === "Alle" ? "ALLE" : type === "Angebot" ? "ANGEBOTE" : "GESUCHE"}
+              </button>
+            ))}
+          </div>
+
+          <div className="filter-row" aria-label="Kategorien">
+            <button className="tag-chip" aria-pressed={categoryFilter === null} onClick={() => setCategoryFilter(null)}>ALLE TAGS</button>
+            {categories.map((category) => (
+              <button key={category} className="tag-chip" aria-pressed={categoryFilter === category} onClick={() => setCategoryFilter(categoryFilter === category ? null : category)}>
+                {category.toUpperCase()}
+              </button>
+            ))}
           </div>
 
           <div className="listing-heading">
