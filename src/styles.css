@@ -241,6 +241,10 @@
 .card-copy p { margin: 0 0 18px; font-size: .74rem; line-height: 1.4; }
 .action-button svg { width: 17px; height: 17px; }
 .action-button:hover, .action-button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.type-chip:hover, .type-chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.tag-chip:hover, .tag-chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.type-badge--angebot { background: var(--coral); color: var(--ink); }
+.type-badge--gesuch { background: var(--ink); color: var(--paper); }
 
 @media (prefers-reduced-motion: reduce) { .image-wrap img, .action-button { transition: none; } }
 
