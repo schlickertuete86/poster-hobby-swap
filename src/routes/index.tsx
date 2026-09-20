@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, Search, SlidersHorizontal } from "lucide-react";
 import { ActionButton } from "../components/action-button";
-import marble from "../assets/hobby-hopper-marble.jpg";
+import marble from "../assets/hobby-hopper-gradient.jpg";
 import yarn from "../assets/yarn.jpg";
 import paint from "../assets/paint.jpg";
 import beads from "../assets/beads.jpg";
