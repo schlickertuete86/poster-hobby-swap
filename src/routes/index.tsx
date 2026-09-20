@@ -41,10 +41,23 @@ function Starburst({ className = "" }: { className?: string }) {
   return <span className={`starburst ${className}`} aria-hidden="true" />;
 }
 
+const typeFilters: ("Alle" | ListingType)[] = ["Alle", "Angebot", "Gesuch"];
+
 function Index() {
   const [query, setQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState<"Alle" | ListingType>("Alle");
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [requested, setRequested] = useState<string[]>([]);
-  const filtered = useMemo(() => listings.filter((item) => `${item.title} ${item.description} ${item.category}`.toLowerCase().includes(query.toLowerCase())), [query]);
+  const filtered = useMemo(
+    () =>
+      listings.filter((item) => {
+        const matchesQuery = `${item.title} ${item.description} ${item.category}`.toLowerCase().includes(query.toLowerCase());
+        const matchesType = typeFilter === "Alle" || item.type === typeFilter;
+        const matchesCategory = !categoryFilter || item.category === categoryFilter;
+        return matchesQuery && matchesType && matchesCategory;
+      }),
+    [query, typeFilter, categoryFilter],
+  );
 
   return (
     <main className="poster-page">
