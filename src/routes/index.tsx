@@ -75,8 +75,8 @@ function Index() {
         </header>
 
         <section className="intro">
-          <div className="eyebrow"><span className="shape-triangle" /> BERLIN / MATERIALBÖRSE / 09—26</div>
-          <h1>FIND DEIN<br /><span>NÄCHSTES</span><br />MATERIAL.</h1>
+          <div className="eyebrow"><span className="shape-triangle" /> DEUTSCHLAND / MATERIALBÖRSE / 09—26</div>
+          <h1>FINDE DEIN<br /><span>NEUES</span><br />HOBBY.</h1>
           <p>Was bei anderen herumliegt, kann bei dir zum Lieblingsprojekt werden.</p>
         </section>
 
