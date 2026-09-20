@@ -46,6 +46,7 @@ function Index() {
     <main className="poster-page">
       <img src={marble} alt="" width={1920} height={1408} className="marble-background" />
       <div className="grain" aria-hidden="true" />
+      <div className="content-scrim" aria-hidden="true" />
 
       <div className="site-shell">
         <header className="site-header">
