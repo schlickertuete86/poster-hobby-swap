@@ -271,6 +271,9 @@
   .search-box input { font-size: 1.1rem; }
   .filter-label span { display: none; }
   .listing-heading { min-height: 66px; padding: 0 13px; }
+  .filter-row { padding: 11px 13px; gap: 6px; }
+  .type-chip { min-height: 32px; padding: 0 11px; font-size: .58rem; }
+  .tag-chip { min-height: 28px; padding: 0 9px; font-size: .54rem; }
   .listing-heading > span { font-size: .52rem; }
   .listing-grid { grid-template-columns: 1fr; }
   .listing-card { grid-template-columns: 42% 58%; min-height: 245px; border-right: 0 !important; border-bottom: 1px solid var(--ink) !important; }
