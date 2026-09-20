@@ -24,13 +24,17 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-const listings = [
-  { title: "Merino-Wollreste", description: "Sieben Knäuel, kräftige Farben. Perfekt für Mützen oder kleine Webprojekte.", category: "Wolle", place: "Kreuzberg · 1,2 km", image: yarn },
-  { title: "Acrylfarben-Set", description: "Vier angebrochene Tuben. Noch reichlich Farbe für dein nächstes Bild.", category: "Farbe", place: "Neukölln · 2,4 km", image: paint },
-  { title: "Glasperlen-Mix", description: "Bunte Einzelstücke aus alten Schmuckprojekten, circa 250 Gramm.", category: "Perlen", place: "Wedding · 3,1 km", image: beads },
-  { title: "Stoffreste gemustert", description: "Baumwollstücke in vielen Mustern. Ideal zum Patchworken und Applizieren.", category: "Stoff", place: "Moabit · 3,8 km", image: fabric },
-  { title: "Stricknadel-Sammlung", description: "Rund- und Jackennadeln aus Holz in verschiedenen Stärken.", category: "Werkzeug", place: "Pankow · 4,0 km", image: needles },
-  { title: "Bänder & Borten", description: "Eine farbenfrohe Mischung für Kleidung, Geschenke und Collagen.", category: "Kurzwaren", place: "Friedrichshain · 4,6 km", image: ribbons },
+type ListingType = "Angebot" | "Gesuch";
+
+const categories = ["Handarbeit", "Malen", "Zeichnen", "Handwerken", "Stoff & Nähen", "Schmuck"] as const;
+
+const listings: { title: string; description: string; category: (typeof categories)[number]; type: ListingType; place: string; image: string }[] = [
+  { title: "Merino-Wollreste", description: "Sieben Knäuel, kräftige Farben. Perfekt für Mützen oder kleine Webprojekte.", category: "Handarbeit", type: "Angebot", place: "Kreuzberg · 1,2 km", image: yarn },
+  { title: "Acrylfarben-Set", description: "Vier angebrochene Tuben. Noch reichlich Farbe für dein nächstes Bild.", category: "Malen", type: "Angebot", place: "Neukölln · 2,4 km", image: paint },
+  { title: "Glasperlen-Mix", description: "Bunte Einzelstücke aus alten Schmuckprojekten, circa 250 Gramm.", category: "Schmuck", type: "Gesuch", place: "Wedding · 3,1 km", image: beads },
+  { title: "Stoffreste gemustert", description: "Baumwollstücke in vielen Mustern. Ideal zum Patchworken und Applizieren.", category: "Stoff & Nähen", type: "Angebot", place: "Moabit · 3,8 km", image: fabric },
+  { title: "Stricknadel-Sammlung", description: "Rund- und Jackennadeln aus Holz in verschiedenen Stärken.", category: "Handarbeit", type: "Gesuch", place: "Pankow · 4,0 km", image: needles },
+  { title: "Bänder & Borten", description: "Eine farbenfrohe Mischung für Kleidung, Geschenke und Collagen.", category: "Handwerken", type: "Angebot", place: "Friedrichshain · 4,6 km", image: ribbons },
 ];
 
 function Starburst({ className = "" }: { className?: string }) {
