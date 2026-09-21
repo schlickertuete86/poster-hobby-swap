@@ -34,7 +34,7 @@ function AuthPage() {
           if (user) {
             await supabase.from("profiles").upsert({
               id: user.id,
-              display_name: typeof user.user_metadata.display_name === "string" ? user.user_metadata.display_name : null,
+              display_name: typeof user.user_metadata['display_name'] === "string" ? user.user_metadata['display_name'] : null,
             });
           }
           void navigate({ to: "/" });
