@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, Search, SlidersHorizontal } from "lucide-react";
 import { ActionButton } from "../components/action-button";
-import marble from "../assets/hobby-hopper-gradient.jpg";
+import { PosterShell } from "../components/poster-shell";
 import yarn from "../assets/yarn.jpg";
 import paint from "../assets/paint.jpg";
 import beads from "../assets/beads.jpg";
@@ -37,10 +37,6 @@ const listings: { title: string; description: string; category: (typeof categori
   { title: "Bänder & Borten", description: "Eine farbenfrohe Mischung für Kleidung, Geschenke und Collagen.", category: "Handwerken", type: "Angebot", place: "Friedrichshain · 4,6 km", image: ribbons },
 ];
 
-function Starburst({ className = "" }: { className?: string }) {
-  return <span className={`starburst ${className}`} aria-hidden="true" />;
-}
-
 const typeFilters: ("Alle" | ListingType)[] = ["Alle", "Angebot", "Gesuch"];
 
 function Index() {
@@ -60,24 +56,11 @@ function Index() {
   );
 
   return (
-    <main className="poster-page">
-      <img src={marble} alt="" width={1920} height={1408} className="marble-background" />
-      <div className="grain" aria-hidden="true" />
-      <div className="content-scrim" aria-hidden="true" />
-
-      <div className="site-shell">
-        <header className="site-header">
-          <a href="/" className="brand" aria-label="Hobby Hopper Startseite">
-            <span>HOBBY</span><span>HOPPER</span>
-          </a>
-          <div className="header-mark"><Starburst /><span className="shape-square" /></div>
-          <div className="header-note">Material rein.<br />Ideen raus.</div>
-        </header>
-
+    <PosterShell>
         <section className="intro">
-          <div className="eyebrow"><span className="shape-triangle" /> GEBEN / NEHMEN / TAUSCHEN</div>
+          <div className="eyebrow"><span className="shape-triangle" /> GEBEN / NEHMEN / TAUSCHEN / INSPIRIEREN</div>
           <h1>FINDE DEIN<br /><span>NEUES</span><br />HOBBY.</h1>
-          <p>Was bei anderen herumliegt, kann bei dir zum Lieblingsprojekt werden.</p>
+          <p>Probier dich aus. Wenn's nichts ist, gib es weiter.</p>
         </section>
 
         <section className="browse-panel" aria-label="Materialien durchsuchen">
@@ -136,7 +119,6 @@ function Index() {
           </div>
           {filtered.length === 0 && <p className="empty-state">NICHTS GEFUNDEN. VERSUCH’S MIT EINEM ANDEREN BEGRIFF.</p>}
         </section>
-      </div>
-    </main>
+    </PosterShell>
   );
 }
