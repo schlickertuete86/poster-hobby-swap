@@ -28,7 +28,18 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN") void navigate({ to: "/" });
+      if (event === "SIGNED_IN") {
+        void supabase.auth.getUser().then(async ({ data: userData }) => {
+          const user = userData.user;
+          if (user) {
+            await supabase.from("profiles").upsert({
+              id: user.id,
+              display_name: typeof user.user_metadata.display_name === "string" ? user.user_metadata.display_name : null,
+            });
+          }
+          void navigate({ to: "/" });
+        });
+      }
     });
     return () => data.subscription.unsubscribe();
   }, [navigate]);
