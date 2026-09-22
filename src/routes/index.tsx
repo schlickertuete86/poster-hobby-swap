@@ -4,7 +4,7 @@ import { ArrowUpRight, Search, SlidersHorizontal } from "lucide-react";
 import { ActionButton } from "../components/action-button";
 import { PosterShell } from "../components/poster-shell";
 import {
-  categories, colors, conditions, deliveryModes, distances, levels, listings, materials, offerKinds,
+  categories, colors, conditions, deliveryModes, distances, levels, listings, materials, offerKinds, sizes,
   type ListingType,
 } from "../lib/catalog";
 
@@ -32,13 +32,10 @@ const facets: { key: FacetKey; label: string; options: readonly string[] }[] = [
   { key: "delivery", label: "ORT", options: deliveryModes },
   { key: "level", label: "LEVEL", options: levels },
   { key: "color", label: "FARBE", options: colors },
-  { key: "size", label: "GRÖSSE", options: sizes_() },
+  { key: "size", label: "GRÖSSE", options: sizes },
   { key: "material", label: "MATERIAL", options: materials },
 ];
 
-function sizes_() {
-  return ["Klein", "Mittel", "Groß"] as const;
-}
 
 function Index() {
   const [query, setQuery] = useState("");
