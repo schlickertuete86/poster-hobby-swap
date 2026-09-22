@@ -18,9 +18,9 @@ export function PosterShell({ children }: { children: ReactNode }) {
             <span>HOBBY</span><span>HOPPER</span>
           </Link>
           <nav className="site-nav" aria-label="Hauptnavigation">
-            <Link to="/">MATERIAL</Link>
-            <Link to="/inspiration">INSPIRATION</Link>
-            <Link to="/projekt-hilfe">PROJEKT-HILFE</Link>
+            <Link to="/">MATERIALBÖRSE</Link>
+            <Link to="/inspiration">INSPIRATION AUS DER COMMUNITY</Link>
+            <Link to="/projekt-hilfe">PROJEKTFINDER</Link>
           </nav>
           <Link to="/auth" className="account-link">ANMELDEN / REGISTRIEREN</Link>
         </header>
