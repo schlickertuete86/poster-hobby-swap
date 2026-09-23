@@ -200,7 +200,7 @@
 @utility brand { color: var(--ink); text-decoration: none; font-family: var(--font-display); font-size: 2rem; line-height: .8; display: flex; flex-direction: column; width: fit-content; }
 @utility header-note { justify-self: end; font-family: var(--font-mono); font-size: .7rem; text-transform: uppercase; text-align: right; line-height: 1.4; }
 @utility header-mark { display: flex; align-items: center; gap: 18px; }
-@utility site-nav { display: flex; align-items: center; justify-content: center; gap: 22px; font-family: var(--font-mono); font-size: .86rem; font-weight: 700; letter-spacing: .04em; }
+@utility site-nav { display: flex; align-items: stretch; justify-content: center; gap: 0; font-family: var(--font-mono); font-size: .86rem; font-weight: 700; letter-spacing: .04em; }
 @utility account-link { justify-self: end; border: 1px solid var(--ink); background: var(--coral); color: var(--ink); padding: 12px 14px; font-family: var(--font-mono); font-size: .58rem; font-weight: 600; text-decoration: none; }
 @utility shape-square { width: 17px; height: 17px; display: block; background: var(--coral); border: 1px solid var(--ink); }
 @utility shape-circle { width: 18px; height: 18px; flex: 0 0 auto; display: block; border-radius: 50%; background: var(--periwinkle); border: 1px solid var(--ink); }
@@ -247,7 +247,8 @@
 .tag-chip:hover, .tag-chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .type-badge--angebot { background: var(--coral); color: var(--ink); }
 .type-badge--gesuch { background: var(--ink); color: var(--paper); }
-.site-nav a { color: var(--ink); text-decoration: none; padding: 8px 0; border-bottom: 2px solid transparent; }
+.site-nav a { display: flex; align-items: center; color: var(--ink); text-decoration: none; padding: 10px 22px; border-bottom: 2px solid transparent; }
+.site-nav a + a { border-left: 1px solid var(--ink); }
 .site-nav a:hover, .site-nav a[aria-current="page"] { border-color: var(--ink); }
 .account-link:hover { background: var(--ink); color: var(--paper); }
 
@@ -314,7 +315,8 @@
 
 @media (max-width: 900px) {
   .site-header { grid-template-columns: auto 1fr auto; gap: 18px; }
-  .site-nav { gap: 10px; font-size: .72rem; }
+  .site-nav { font-size: .72rem; }
+  .site-nav a { padding-inline: 12px; }
   .account-link { font-size: .5rem; padding: 10px 8px; }
   .listing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .listing-card:nth-child(3n) { border-right: 1px solid var(--ink); }
@@ -326,7 +328,9 @@
 @media (max-width: 600px) {
   .site-shell { width: calc(100% - 22px); padding-bottom: 36px; }
   .site-header { min-height: 86px; grid-template-columns: 1fr auto; }
-  .site-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; border-top: 1px solid var(--ink); padding: 10px 0; overflow-x: auto; font-size: .64rem; }
+  .site-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; border-top: 1px solid var(--ink); padding: 8px 0; overflow-x: auto; font-size: .64rem; }
+  .site-nav a { flex: 0 0 auto; padding: 8px 14px; }
+  .site-nav a:first-child { padding-left: 0; }
   .account-link { grid-column: 2; grid-row: 1; }
   .brand { font-size: 1.55rem; }
   .eyebrow { font-size: .5rem; }
