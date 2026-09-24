@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { PosterShell, Starburst } from "../components/poster-shell";
@@ -7,6 +8,7 @@ import { supabase } from "../integrations/supabase/client";
 import { lovable } from "../integrations/lovable";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search) => z.object({ redirect: z.string().optional() }).parse(search),
   head: () => ({ meta: [
     { title: "Anmelden oder registrieren | Hobby Hopper" },
     { name: "description", content: "Bei Hobby Hopper anmelden oder ein neues Community-Konto erstellen." },
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,12 +40,13 @@ function AuthPage() {
               display_name: typeof user.user_metadata['display_name'] === "string" ? user.user_metadata['display_name'] : null,
             });
           }
-          void navigate({ to: "/" });
+          const safeDestination = redirect?.startsWith("/") && !redirect.startsWith("//") ? redirect : "/";
+          void navigate({ to: safeDestination });
         });
       }
     });
     return () => data.subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, redirect]);
   async function submit(event: FormEvent) {
     event.preventDefault(); setBusy(true); setMessage("");
     if (mode === "signup") {

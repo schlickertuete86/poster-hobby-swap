@@ -1,15 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, Search, SlidersHorizontal } from "lucide-react";
 import { ActionButton } from "../components/action-button";
 import { PosterShell } from "../components/poster-shell";
 import {
-  categories, colors, conditions, deliveryModes, distances, levels, listings, materials, offerKinds, sizes,
-  type ListingType,
+  categories, colors, conditions, deliveryModes, distances, levels, listings as demoListings, materials, offerKinds, sizes,
+  type Listing, type ListingType,
 } from "../lib/catalog";
+import { getPublishedListings } from "../lib/listings.functions";
 
 export const Route = createFileRoute("/")({
+  loader: () => getPublishedListings(),
   component: Index,
+  errorComponent: () => <p className="empty-state">DIE MATERIALBÖRSE KONNTE NICHT GELADEN WERDEN.</p>,
+  notFoundComponent: () => <p className="empty-state">DIESE SEITE GIBT ES NICHT.</p>,
   head: () => ({
     meta: [
       { title: "Materialbörse | Hobby Hopper" },
@@ -38,6 +42,27 @@ const facets: { key: FacetKey; label: string; options: readonly string[] }[] = [
 
 
 function Index() {
+  const published = Route.useLoaderData();
+  const allListings = useMemo<Listing[]>(() => [
+    ...published.map((item) => ({
+      title: item.title,
+      description: item.description,
+      category: item.category as Listing["category"],
+      type: item.listing_type as ListingType,
+      place: item.place,
+      postalCode: item.postal_code,
+      distanceKm: 0,
+      condition: item.condition as Listing["condition"],
+      offerKind: item.offer_kind as Listing["offerKind"],
+      delivery: item.delivery as Listing["delivery"],
+      level: item.level as Listing["level"],
+      color: item.color as Listing["color"],
+      size: item.size as Listing["size"],
+      materials: item.materials as Listing["materials"],
+      image: item.image_url,
+    })),
+    ...demoListings,
+  ], [published]);
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<"Alle" | ListingType>("Alle");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
@@ -67,7 +92,7 @@ function Index() {
 
   const filtered = useMemo(
     () =>
-      listings.filter((item) => {
+      allListings.filter((item) => {
         const haystack = `${item.title} ${item.description} ${item.category} ${item.materials.join(" ")} ${item.place} ${item.postalCode}`.toLowerCase();
         if (!haystack.includes(query.toLowerCase())) return false;
         if (typeFilter !== "Alle" && item.type !== typeFilter) return false;
@@ -82,7 +107,7 @@ function Index() {
         if (radius && item.distanceKm > radius) return false;
         return true;
       }),
-    [query, typeFilter, categoryFilter, selected, radius],
+    [allListings, query, typeFilter, categoryFilter, selected, radius],
   );
 
   return (
@@ -94,6 +119,7 @@ function Index() {
         </section>
 
         <section className="browse-panel" aria-label="Materialbörse durchsuchen">
+          <div className="listing-toolbar"><Link to="/inserat-neu" className="create-listing-link">+ INSERAT EINSTELLEN</Link><span>ANGEBOT ODER GESUCH VERÖFFENTLICHEN</span></div>
           <div className="search-row">
             <label className="search-box">
               <Search aria-hidden="true" />
@@ -174,7 +200,7 @@ function Index() {
                     <span className={`type-badge type-badge--${item.type.toLowerCase()}`}>{item.type.toUpperCase()}</span>
                   </div>
                   <div className="card-copy">
-                    <div className="meta"><span>{item.category}</span><span>{item.place} · {item.distanceKm} km</span></div>
+                    <div className="meta"><span>{item.category}</span><span>{item.place}{item.distanceKm ? ` · ${item.distanceKm} km` : ""}</span></div>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     <div className="attribute-row">
