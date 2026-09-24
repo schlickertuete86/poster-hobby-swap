@@ -225,6 +225,8 @@
 @utility meta { display: flex; justify-content: space-between; gap: 8px; padding-bottom: 13px; border-bottom: 1px solid var(--ink); font-family: var(--font-mono); font-size: .54rem; text-transform: uppercase; }
 @utility action-button { margin-top: auto; width: 100%; min-height: 44px; border: 1px solid var(--ink); border-radius: 0; background: var(--coral); color: var(--ink); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-family: var(--font-mono); font-size: .65rem; font-weight: 600; cursor: pointer; transition: background-color .15s ease, color .15s ease; }
 @utility empty-state { padding: 64px 24px; margin: 0; font-family: var(--font-display); font-size: 2rem; }
+@utility listing-toolbar { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 24px; border-bottom: 1px solid var(--ink); font-family: var(--font-mono); font-size: .58rem; }
+@utility create-listing-link { display: inline-flex; align-items: center; min-height: 38px; padding: 0 16px; border: 1px solid var(--ink); background: var(--coral); color: var(--ink); font-family: var(--font-mono); font-size: .66rem; font-weight: 700; text-decoration: none; }
 
 .intro h1 { margin: 42px 0 16px; max-width: 860px; font-family: var(--font-display); font-size: clamp(5rem, 10vw, 9.5rem); font-weight: 400; line-height: .77; letter-spacing: 0; }
 .intro h1 span { -webkit-text-stroke: 2px var(--ink); color: transparent; }
@@ -251,6 +253,40 @@
 .site-nav a + a { border-left: 1px solid var(--ink); }
 .site-nav a:hover, .site-nav a[aria-current="page"] { border-color: var(--ink); }
 .account-link:hover { background: var(--ink); color: var(--paper); }
+.create-listing-link:hover { background: var(--ink); color: var(--paper); }
+
+.create-intro { min-height: 400px; padding: 42px 0 38px; display: flex; flex-direction: column; justify-content: space-between; }
+.create-intro > p { max-width: 470px; margin: 0 0 0 auto; font-weight: 600; }
+.back-link { width: fit-content; display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-family: var(--font-mono); font-size: .62rem; font-weight: 700; text-decoration: none; }
+.back-link svg { width: 17px; }
+.listing-form { background: var(--paper); border: 1px solid var(--ink); box-shadow: 14px 14px 0 var(--ink); }
+.form-section { display: grid; grid-template-columns: 80px 1fr; border-bottom: 1px solid var(--ink); }
+.form-section > div { padding: 26px; border-left: 1px solid var(--ink); }
+.form-number { padding: 28px 18px; font-family: var(--font-display); font-size: 2.4rem; }
+.form-section h2 { margin: 0 0 20px; font-family: var(--font-display); font-size: 2rem; font-weight: 400; }
+.choice-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.field-grid h2, .wide-field { grid-column: 1 / -1; }
+.field-grid label, .chip-field { display: grid; gap: 8px; font-family: var(--font-mono); font-size: .58rem; font-weight: 600; }
+.field-grid input, .field-grid textarea, .field-grid select { width: 100%; min-height: 48px; box-sizing: border-box; border: 1px solid var(--ink); border-radius: 0; background: transparent; color: var(--ink); padding: 10px 12px; font-family: var(--font-body); }
+.field-grid textarea { min-height: 120px; resize: vertical; }
+.photo-drop { min-height: 260px; display: grid; place-content: center; justify-items: center; gap: 10px; border: 1px dashed var(--ink); cursor: pointer; font-family: var(--font-mono); font-size: .58rem; }
+.photo-drop svg { width: 40px; height: 40px; }
+.photo-drop input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+.photo-preview { position: relative; width: min(100%, 560px); aspect-ratio: 4 / 3; border: 1px solid var(--ink); }
+.photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+.photo-preview button { position: absolute; top: 0; right: 0; width: 42px; height: 42px; display: grid; place-items: center; border: 0; border-left: 1px solid var(--ink); border-bottom: 1px solid var(--ink); border-radius: 0; background: var(--coral); cursor: pointer; }
+.photo-preview button svg { width: 18px; }
+.form-publish { display: grid; grid-template-columns: 1fr minmax(240px, 340px); gap: 30px; align-items: end; padding: 28px; }
+.form-publish > div { min-width: 0; }
+.form-publish > div > span { font-family: var(--font-mono); font-size: .56rem; }
+.form-publish strong { display: block; margin-top: 10px; font-family: var(--font-display); font-size: 2.2rem; text-transform: uppercase; }
+.form-publish p { margin: 8px 0 16px; }
+.form-message { margin: 0; padding: 16px 28px; border-top: 1px solid var(--ink); font-family: var(--font-mono); font-size: .64rem; }
+.listing-gate { min-height: calc(100vh - 150px); padding: 60px 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+.listing-gate h1 { margin: 30px 0 20px; font-family: var(--font-display); font-size: clamp(4.5rem, 10vw, 9rem); font-weight: 400; line-height: .82; }
+.listing-gate h1 span { color: transparent; -webkit-text-stroke: 2px var(--ink); }
+.listing-gate p { margin: 0 0 24px; font-weight: 600; }
 
 .subpage-intro { min-height: 430px; padding: 48px 0 38px; display: flex; flex-direction: column; justify-content: space-between; }
 .subpage-intro > p { max-width: 460px; margin: 0 0 0 auto; font-weight: 600; font-size: 1rem; }
@@ -374,6 +410,16 @@
   .help-placeholder p { font-size: 1.4rem; }
   .auth-layout { grid-template-columns: 1fr; gap: 30px; padding: 38px 0; }
   .auth-statement h1 { margin: 42px 0 20px; font-size: 6rem; }
+  .listing-toolbar { padding: 10px 13px; align-items: flex-start; flex-direction: column; }
+  .form-section { grid-template-columns: 48px 1fr; }
+  .form-section > div { padding: 18px 14px; }
+  .form-number { padding: 20px 10px; font-size: 1.7rem; }
+  .field-grid { grid-template-columns: 1fr; }
+  .field-grid h2, .wide-field { grid-column: 1; }
+  .form-publish { grid-template-columns: 1fr; padding: 20px 14px; }
+  .listing-form { box-shadow: 7px 7px 0 var(--ink); }
+  .create-intro { min-height: 330px; padding: 30px 0; }
+  .create-intro > p { width: 78%; }
 }
 
 @utility filter-panel { display: grid; gap: 18px; padding: 18px 24px; border-bottom: 1px solid var(--ink); }

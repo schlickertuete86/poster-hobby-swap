@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as InseratNeuRouteImport } from './routes/inserat-neu'
 import { Route as InspirationRouteImport } from './routes/inspiration'
 import { Route as ProjektHilfeRouteImport } from './routes/projekt-hilfe'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InseratNeuRoute = InseratNeuRouteImport.update({
+  id: '/inserat-neu',
+  path: '/inserat-neu',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InspirationRoute = InspirationRouteImport.update({
@@ -38,12 +44,14 @@ const ProjektHilfeRoute = ProjektHilfeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/inserat-neu': typeof InseratNeuRoute
   '/inspiration': typeof InspirationRoute
   '/projekt-hilfe': typeof ProjektHilfeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/inserat-neu': typeof InseratNeuRoute
   '/inspiration': typeof InspirationRoute
   '/projekt-hilfe': typeof ProjektHilfeRoute
 }
@@ -51,20 +59,28 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/inserat-neu': typeof InseratNeuRoute
   '/inspiration': typeof InspirationRoute
   '/projekt-hilfe': typeof ProjektHilfeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/inspiration' | '/projekt-hilfe'
+  fullPaths: '/' | '/auth' | '/inserat-neu' | '/inspiration' | '/projekt-hilfe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/inspiration' | '/projekt-hilfe'
-  id: '__root__' | '/' | '/auth' | '/inspiration' | '/projekt-hilfe'
+  to: '/' | '/auth' | '/inserat-neu' | '/inspiration' | '/projekt-hilfe'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/inserat-neu'
+    | '/inspiration'
+    | '/projekt-hilfe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  InseratNeuRoute: typeof InseratNeuRoute
   InspirationRoute: typeof InspirationRoute
   ProjektHilfeRoute: typeof ProjektHilfeRoute
 }
@@ -83,6 +99,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inserat-neu': {
+      id: '/inserat-neu'
+      path: '/inserat-neu'
+      fullPath: '/inserat-neu'
+      preLoaderRoute: typeof InseratNeuRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inspiration': {
@@ -105,6 +128,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  InseratNeuRoute: InseratNeuRoute,
   InspirationRoute: InspirationRoute,
   ProjektHilfeRoute: ProjektHilfeRoute,
 }
