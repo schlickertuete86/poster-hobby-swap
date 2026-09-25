@@ -1,12 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, ArrowUpRight, ImagePlus, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ActionButton } from "../components/action-button";
 import { PosterShell, Starburst } from "../components/poster-shell";
-import { supabase } from "../integrations/supabase/client";
 import { categories, colors, conditions, deliveryModes, levels, materials, offerKinds, sizes, type ListingType } from "../lib/catalog";
-import { createListing } from "../lib/listings.functions";
+import { addMockListing } from "../lib/mock-listings";
 
 export const Route = createFileRoute("/inserat-neu")({
   component: NewListingPage,
@@ -30,19 +28,14 @@ type FormState = {
 const initial: FormState = { listingType: "Angebot", title: "", description: "", category: categories[0], place: "", postalCode: "", condition: conditions[0], offerKind: offerKinds[0], delivery: [], level: levels[0], color: colors[0], size: sizes[0], materials: [], notes: "" };
 
 function NewListingPage() {
-  const publish = useServerFn(createListing);
   const navigate = useNavigate();
   const [form, setForm] = useState(initial);
   const [photo, setPhoto] = useState<File | null>(null);
-  const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const preview = useMemo(() => photo ? URL.createObjectURL(photo) : "", [photo]);
 
-  useEffect(() => {
-    void supabase.auth.getUser().then(({ data }) => setSignedIn(Boolean(data.user)));
-    return () => { if (preview) URL.revokeObjectURL(preview); };
-  }, [preview]);
+  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
   function toggleArray<K extends "delivery" | "materials">(key: K, value: FormState[K][number]) {
     setForm((current) => ({ ...current, [key]: current[key].includes(value as never) ? current[key].filter((item) => item !== value) : [...current[key], value] }));
@@ -54,27 +47,14 @@ function NewListingPage() {
     if (!form.delivery.length || !form.materials.length) { setMessage("WÄHLE MINDESTENS EINE ÜBERGABEART UND EIN MATERIAL."); return; }
     if (!photo.type.startsWith("image/") || photo.size > 8 * 1024 * 1024) { setMessage("DAS FOTO MUSS EIN BILD UND MAXIMAL 8 MB GROSS SEIN."); return; }
     setBusy(true); setMessage("");
-    try {
-      const { data: userData } = await supabase.auth.getUser();
-      const user = userData.user;
-      if (!user) { setSignedIn(false); return; }
-      const extension = photo.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
-      const imagePath = `${user.id}/${crypto.randomUUID()}.${extension}`;
-      const { error: uploadError } = await supabase.storage.from("listing-photos").upload(imagePath, photo, { contentType: photo.type, upsert: false });
-      if (uploadError) throw new Error("Das Foto konnte nicht hochgeladen werden.");
-      try {
-        await publish({ data: { ...form, imagePath } });
-      } catch (error) {
-        await supabase.storage.from("listing-photos").remove([imagePath]);
-        throw error;
-      }
-      await navigate({ to: "/" });
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Das Inserat konnte nicht veröffentlicht werden.");
-    } finally { setBusy(false); }
+    addMockListing({
+      title: form.title, description: form.description, category: form.category, type: form.listingType,
+      place: form.place, postalCode: form.postalCode, distanceKm: 0, condition: form.condition,
+      offerKind: form.offerKind, delivery: form.delivery, level: form.level, color: form.color,
+      size: form.size, materials: form.materials, image: URL.createObjectURL(photo),
+    });
+    await navigate({ to: "/" });
   }
-
-  if (signedIn === false) return <PosterShell><section className="listing-gate"><Starburst /><h1>ERST ANMELDEN.<br />DANN <span>WEITERGEBEN.</span></h1><p>Zum Einstellen eines Inserats brauchst du ein Community-Konto.</p><Link to="/auth" search={{ redirect: "/inserat-neu" } as never} className="account-link">ANMELDEN / REGISTRIEREN</Link></section></PosterShell>;
 
   return <PosterShell>
     <section className="create-intro"><Link to="/" className="back-link"><ArrowLeft /> ZUR MATERIALBÖRSE</Link><div className="subpage-title-row"><h1>NEUES<br /><span>INSERAT.</span></h1><Starburst /></div><p>Zeig, was du weitergeben möchtest – oder sag der Community, wonach du suchst.</p></section>
