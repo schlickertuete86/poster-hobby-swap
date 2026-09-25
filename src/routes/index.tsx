@@ -7,10 +7,9 @@ import {
   categories, colors, conditions, deliveryModes, distances, levels, listings as demoListings, materials, offerKinds, sizes,
   type Listing, type ListingType,
 } from "../lib/catalog";
-import { getPublishedListings } from "../lib/listings.functions";
+import { useMockListings } from "../lib/mock-listings";
 
 export const Route = createFileRoute("/")({
-  loader: () => getPublishedListings(),
   component: Index,
   errorComponent: () => <p className="empty-state">DIE MATERIALBÖRSE KONNTE NICHT GELADEN WERDEN.</p>,
   notFoundComponent: () => <p className="empty-state">DIESE SEITE GIBT ES NICHT.</p>,
@@ -42,27 +41,8 @@ const facets: { key: FacetKey; label: string; options: readonly string[] }[] = [
 
 
 function Index() {
-  const published = Route.useLoaderData();
-  const allListings = useMemo<Listing[]>(() => [
-    ...published.map((item) => ({
-      title: item.title,
-      description: item.description,
-      category: item.category as Listing["category"],
-      type: item.listing_type as ListingType,
-      place: item.place,
-      postalCode: item.postal_code,
-      distanceKm: 0,
-      condition: item.condition as Listing["condition"],
-      offerKind: item.offer_kind as Listing["offerKind"],
-      delivery: item.delivery as Listing["delivery"],
-      level: item.level as Listing["level"],
-      color: item.color as Listing["color"],
-      size: item.size as Listing["size"],
-      materials: item.materials as Listing["materials"],
-      image: item.image_url,
-    })),
-    ...demoListings,
-  ], [published]);
+  const mockListings = useMockListings();
+  const allListings = useMemo<Listing[]>(() => [...mockListings, ...demoListings], [mockListings]);
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<"Alle" | ListingType>("Alle");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
