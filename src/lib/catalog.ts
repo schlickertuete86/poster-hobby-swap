@@ -33,17 +33,17 @@ export type Listing = {
   place: string;
   postalCode: string;
   distanceKm: number;
-  condition?: (typeof conditions)[number];
-  acceptedConditions?: (typeof conditions)[number][];
+  condition?: (typeof conditions)[number] | undefined;
+  acceptedConditions?: (typeof conditions)[number][] | undefined;
   scope: (typeof scopes)[number];
   handover: (typeof handoverModes)[number];
   delivery: (typeof deliveryModes)[number][];
-  level?: (typeof levels)[number];
-  color?: (typeof colors)[number];
-  size?: (typeof sizes)[number];
+  level?: (typeof levels)[number] | undefined;
+  color?: (typeof colors)[number] | undefined;
+  size?: (typeof sizes)[number] | undefined;
   materials: (typeof materials)[number][];
   image: string;
-  images?: string[];
+  images?: string[] | undefined;
 };
 
 export const listings: Listing[] = [
