@@ -449,3 +449,18 @@
   .result-block { padding: 14px 13px; }
   .match-grid { grid-template-columns: 1fr; }
 }
+
+/* Inserat-Formular: Validierung & Mehrfachfotos */
+.req { color: var(--coral, #E2704A); margin-left: 2px; }
+.field-error { font-family: var(--font-mono); font-size: .58rem; font-weight: 600; color: #b3361a; margin: 4px 0 0; }
+.has-error input, .has-error select, .has-error textarea, .has-error .photo-drop, .has-error .choice-row { outline: 2px solid #b3361a; outline-offset: 2px; }
+.char-count { justify-self: end; font-family: var(--font-mono); font-size: .54rem; opacity: .7; }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.photo-thumb { position: relative; aspect-ratio: 1; border: 1px solid var(--ink); }
+.photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.photo-thumb button { position: absolute; top: 4px; right: 4px; width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--ink); border-radius: 0; background: var(--paper, #F7F4EC); cursor: pointer; }
+.photo-thumb button svg { width: 16px; height: 16px; }
+.photo-add { aspect-ratio: 1; min-height: 0; position: relative; }
+.photo-grid .photo-drop { min-height: 0; aspect-ratio: 1; }
+.form-section { scroll-margin-top: 90px; }
+.image-placeholder { width: 100%; aspect-ratio: 1; display: grid; place-content: center; justify-items: center; gap: 10px; background: color-mix(in srgb, var(--ink) 6%, transparent); font-family: var(--font-mono); font-size: .58rem; }
