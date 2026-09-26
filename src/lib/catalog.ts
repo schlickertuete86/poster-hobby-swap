@@ -11,7 +11,8 @@ import projectBeads from "../assets/project-beads.jpg";
 
 export const categories = ["Handarbeit", "Malen", "Zeichnen", "Handwerken", "Stoff & Nähen", "Schmuck"] as const;
 export const conditions = ["Neu", "Wie neu", "Gebraucht", "Starke Gebrauchsspuren"] as const;
-export const offerKinds = ["Set", "Einzelteil(e)", "Tauschen", "Verschenken", "Gesuch", "Verkauf"] as const;
+export const scopes = ["Set", "Einzelteil(e)"] as const;
+export const handoverModes = ["Verschenken", "Tauschen"] as const;
 export const deliveryModes = ["Selbstabholung", "Versand"] as const;
 export const levels = ["Anfänger*in", "Mit Vorwissen", "Professionell"] as const;
 export const colors = ["Bunt", "Rot", "Blau", "Grün", "Natur", "Schwarz"] as const;
@@ -32,51 +33,54 @@ export type Listing = {
   place: string;
   postalCode: string;
   distanceKm: number;
-  condition: (typeof conditions)[number];
-  offerKind: (typeof offerKinds)[number];
+  condition?: (typeof conditions)[number] | undefined;
+  acceptedConditions?: (typeof conditions)[number][] | undefined;
+  scope: (typeof scopes)[number];
+  handover: (typeof handoverModes)[number];
   delivery: (typeof deliveryModes)[number][];
-  level: (typeof levels)[number];
-  color: (typeof colors)[number];
-  size: (typeof sizes)[number];
+  level?: (typeof levels)[number] | undefined;
+  color?: (typeof colors)[number] | undefined;
+  size?: (typeof sizes)[number] | undefined;
   materials: (typeof materials)[number][];
   image: string;
+  images?: string[] | undefined;
 };
 
 export const listings: Listing[] = [
   {
     title: "Merino-Wollreste", description: "Sieben Knäuel, kräftige Farben. Perfekt für Mützen oder kleine Webprojekte.",
     category: "Handarbeit", type: "Angebot", place: "Köln", postalCode: "50667", distanceKm: 4,
-    condition: "Wie neu", offerKind: "Set", delivery: ["Selbstabholung", "Versand"], level: "Anfänger*in",
+    condition: "Wie neu", scope: "Set", handover: "Verschenken", delivery: ["Selbstabholung", "Versand"], level: "Anfänger*in",
     color: "Bunt", size: "Mittel", materials: ["Garn", "Textil"], image: yarn,
   },
   {
     title: "Acrylfarben-Set", description: "Vier angebrochene Tuben. Noch reichlich Farbe für dein nächstes Bild.",
     category: "Malen", type: "Angebot", place: "Leipzig", postalCode: "04103", distanceKm: 9,
-    condition: "Gebraucht", offerKind: "Verschenken", delivery: ["Selbstabholung"], level: "Anfänger*in",
+    condition: "Gebraucht", scope: "Set", handover: "Verschenken", delivery: ["Selbstabholung"], level: "Anfänger*in",
     color: "Bunt", size: "Klein", materials: ["Acrylfarbe", "Malereiutensilien"], image: paint,
   },
   {
     title: "Glasperlen-Mix", description: "Bunte Einzelstücke aus alten Schmuckprojekten, circa 250 Gramm.",
     category: "Schmuck", type: "Gesuch", place: "Hamburg", postalCode: "20095", distanceKm: 21,
-    condition: "Gebraucht", offerKind: "Gesuch", delivery: ["Versand"], level: "Mit Vorwissen",
+    condition: "Gebraucht", scope: "Einzelteil(e)", handover: "Tauschen", delivery: ["Versand"], level: "Mit Vorwissen",
     color: "Bunt", size: "Klein", materials: ["Perlen", "Glas"], image: beads,
   },
   {
     title: "Stoffreste gemustert", description: "Baumwollstücke in vielen Mustern. Ideal zum Patchworken und Applizieren.",
     category: "Stoff & Nähen", type: "Angebot", place: "München", postalCode: "80331", distanceKm: 38,
-    condition: "Wie neu", offerKind: "Tauschen", delivery: ["Selbstabholung", "Versand"], level: "Mit Vorwissen",
+    condition: "Wie neu", scope: "Einzelteil(e)", handover: "Tauschen", delivery: ["Selbstabholung", "Versand"], level: "Mit Vorwissen",
     color: "Bunt", size: "Groß", materials: ["Stoff", "Textil"], image: fabric,
   },
   {
     title: "Stricknadel-Sammlung", description: "Rund- und Jackennadeln aus Holz in verschiedenen Stärken.",
     category: "Handarbeit", type: "Gesuch", place: "Dresden", postalCode: "01067", distanceKm: 62,
-    condition: "Starke Gebrauchsspuren", offerKind: "Gesuch", delivery: ["Versand"], level: "Professionell",
+    condition: "Starke Gebrauchsspuren", scope: "Set", handover: "Verschenken", delivery: ["Versand"], level: "Professionell",
     color: "Natur", size: "Klein", materials: ["Werkzeug", "Holz", "Metall"], image: needles,
   },
   {
     title: "Bänder & Borten", description: "Eine farbenfrohe Mischung für Kleidung, Geschenke und Collagen.",
     category: "Handwerken", type: "Angebot", place: "Mainz", postalCode: "55116", distanceKm: 15,
-    condition: "Neu", offerKind: "Verkauf", delivery: ["Versand"], level: "Anfänger*in",
+    condition: "Neu", scope: "Set", handover: "Verschenken", delivery: ["Versand"], level: "Anfänger*in",
     color: "Bunt", size: "Mittel", materials: ["Textil", "Stoff"], image: ribbons,
   },
 ];

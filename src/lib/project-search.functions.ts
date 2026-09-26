@@ -29,7 +29,7 @@ export const findProjectHelp = createServerFn({ method: "POST" })
     });
 
     const listingCatalog = listings
-      .map((item) => `- ${item.title} | ${item.type} | ${item.category} | Material: ${item.materials.join(", ")} | Zustand: ${item.condition} | ${item.offerKind} | ${item.place} (${item.postalCode}) | ${item.delivery.join("/")} | Level: ${item.level} | ${item.description}`)
+      .map((item) => `- ${item.title} | ${item.type} | ${item.category} | Material: ${item.materials.join(", ")} | Zustand: ${item.condition ?? "offen"} | ${item.scope} | ${item.handover} | ${item.place} (${item.postalCode}) | ${item.delivery.join("/")} | Level: ${item.level} | ${item.description}`)
       .join("\n");
     const projectCatalog = communityProjects
       .map((project) => `- ${project.title} | ${project.tag} | von ${project.maker} | Material: ${project.materials}`)

@@ -94,7 +94,7 @@ function ProjectHelpPage() {
                 <span className="match-meta">{item.type.toUpperCase()} · {item.category} · {item.place}</span>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <span className="match-meta">{item.condition} · {item.offerKind} · {item.delivery.join(" / ")}</span>
+                <span className="match-meta">{item.condition ?? "Zustand offen"} · {item.scope} · {item.handover} · {item.delivery.join(" / ")}</span>
               </div>
             </article>)}
           </div>
