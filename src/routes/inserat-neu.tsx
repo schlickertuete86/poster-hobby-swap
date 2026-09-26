@@ -165,7 +165,7 @@ function NewListingPage() {
   </PosterShell>;
 }
 
-function Field({ k, label, required, wide, error, reg, children }: { k: FieldKey; label: string; required?: boolean; wide?: boolean; error?: string; reg: (k: FieldKey) => (el: HTMLElement | null) => void; children: ReactNode }) {
+function Field({ k, label, required, wide, error, reg, children }: { k: FieldKey; label: string; required?: boolean | undefined; wide?: boolean | undefined; error?: string | undefined; reg: (k: FieldKey) => (el: HTMLElement | null) => void; children: ReactNode }) {
   return <div ref={reg(k)} className={`chip-field ${wide ? "wide-field" : ""} ${error ? "has-error" : ""}`}>
     <span>{label}{required && <span className="req">*</span>}</span>
     {children}
