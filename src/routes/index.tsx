@@ -4,7 +4,7 @@ import { ArrowUpRight, Search, SlidersHorizontal } from "lucide-react";
 import { ActionButton } from "../components/action-button";
 import { PosterShell } from "../components/poster-shell";
 import {
-  categories, colors, conditions, deliveryModes, distances, levels, listings as demoListings, materials, offerKinds, sizes,
+  categories, colors, conditions, deliveryModes, distances, levels, listings as demoListings, materials, scopes, handoverModes, sizes,
   type Listing, type ListingType,
 } from "../lib/catalog";
 import { useMockListings } from "../lib/mock-listings";
@@ -27,11 +27,12 @@ export const Route = createFileRoute("/")({
 
 const typeFilters: ("Alle" | ListingType)[] = ["Alle", "Angebot", "Gesuch"];
 
-type FacetKey = "condition" | "offerKind" | "delivery" | "level" | "color" | "size" | "material";
+type FacetKey = "condition" | "scope" | "handover" | "delivery" | "level" | "color" | "size" | "material";
 
 const facets: { key: FacetKey; label: string; options: readonly string[] }[] = [
   { key: "condition", label: "ZUSTAND", options: conditions },
-  { key: "offerKind", label: "ANGEBOTSART", options: offerKinds },
+  { key: "scope", label: "UMFANG", options: scopes },
+  { key: "handover", label: "WEITERGABE ALS", options: handoverModes },
   { key: "delivery", label: "ORT", options: deliveryModes },
   { key: "level", label: "LEVEL", options: levels },
   { key: "color", label: "FARBE", options: colors },
@@ -49,7 +50,7 @@ function Index() {
   const [requested, setRequested] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selected, setSelected] = useState<Record<FacetKey, string[]>>({
-    condition: [], offerKind: [], delivery: [], level: [], color: [], size: [], material: [],
+    condition: [], scope: [], handover: [], delivery: [], level: [], color: [], size: [], material: [],
   });
   const [postalCode, setPostalCode] = useState("");
   const [radius, setRadius] = useState<number | null>(null);
@@ -65,7 +66,7 @@ function Index() {
   }
 
   function resetFilters() {
-    setSelected({ condition: [], offerKind: [], delivery: [], level: [], color: [], size: [], material: [] });
+    setSelected({ condition: [], scope: [], handover: [], delivery: [], level: [], color: [], size: [], material: [] });
     setPostalCode("");
     setRadius(null);
   }
@@ -77,12 +78,13 @@ function Index() {
         if (!haystack.includes(query.toLowerCase())) return false;
         if (typeFilter !== "Alle" && item.type !== typeFilter) return false;
         if (categoryFilter && item.category !== categoryFilter) return false;
-        if (selected.condition.length && !selected.condition.includes(item.condition)) return false;
-        if (selected.offerKind.length && !selected.offerKind.includes(item.offerKind)) return false;
+        if (selected.condition.length && !selected.condition.some((c) => c === item.condition || item.acceptedConditions?.includes(c as never))) return false;
+        if (selected.scope.length && !selected.scope.includes(item.scope)) return false;
+        if (selected.handover.length && !selected.handover.includes(item.handover)) return false;
         if (selected.delivery.length && !selected.delivery.some((mode) => item.delivery.includes(mode as (typeof deliveryModes)[number]))) return false;
-        if (selected.level.length && !selected.level.includes(item.level)) return false;
-        if (selected.color.length && !selected.color.includes(item.color)) return false;
-        if (selected.size.length && !selected.size.includes(item.size)) return false;
+        if (selected.level.length && !selected.level.includes(item.level ?? "")) return false;
+        if (selected.color.length && !selected.color.includes(item.color ?? "")) return false;
+        if (selected.size.length && !selected.size.includes(item.size ?? "")) return false;
         if (selected.material.length && !selected.material.some((entry) => item.materials.includes(entry as (typeof materials)[number]))) return false;
         if (radius && item.distanceKm > radius) return false;
         return true;
@@ -175,7 +177,7 @@ function Index() {
               return (
                 <article className="listing-card" key={item.title}>
                   <div className="image-wrap">
-                    <img src={item.image} alt={item.title} width={816} height={816} loading="lazy" />
+                    {item.image ? <img src={item.image} alt={item.title} width={816} height={816} loading="lazy" /> : <div className="image-placeholder" aria-hidden="true"><span className="shape-circle" /><span>KEIN FOTO</span></div>}
                     <span className="listing-number">{String(index + 1).padStart(2, "0")}</span>
                     <span className={`type-badge type-badge--${item.type.toLowerCase()}`}>{item.type.toUpperCase()}</span>
                   </div>
@@ -184,7 +186,7 @@ function Index() {
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     <div className="attribute-row">
-                      <span>{item.condition}</span><span>{item.offerKind}</span><span>{item.delivery.join(" / ")}</span><span>{item.level}</span>
+                      {item.condition && <span>{item.condition}</span>}<span>{item.scope}</span><span>{item.handover}</span><span>{item.delivery.join(" / ")}</span>{item.level && <span>{item.level}</span>}
                     </div>
                     <ActionButton onClick={() => setRequested((current) => isRequested ? current.filter((title) => title !== item.title) : [...current, item.title])} aria-pressed={isRequested}>
                       {isRequested ? "ANGEFRAGT" : item.type === "Gesuch" ? "ANBIETEN" : "ANFRAGEN"}<ArrowUpRight aria-hidden="true" />
